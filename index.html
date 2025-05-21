@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kode Akses | Bentuk dan Warna</title>
-  <link rel="icon" href="icon.jpg" type="image/png" />
+  <link rel="icon" href="logo.jpg" type="image/png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background: url('bg.jpg') no-repeat center center fixed;
+  background: url('bg_.jpg') no-repeat center center fixed;
   background-size: cover;
 
   /* tetap flex untuk center */
@@ -122,7 +122,8 @@ body::before {
       showConfirmButton: false,
     });
 
-    const apiUrl = 'https://script.google.com/macros/s/AKfycby6lnl5ZGYJ9ccNBIaBr6Cz_cUarfoThVd7fcA8pc0LLifF-on881WVnBcJ40G0h14Wig/exec?kode=' + encodeURIComponent(kode);
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbwSFoKtL45t5O4aipa2mSUtXWSjWR3Ar8Xr8ftLdd7jBBVfpQz4wb-eRcDwCAqFXQ79/exec?kode=' + encodeURIComponent(kode);
+    
 
     fetch(apiUrl)
       .then(response => response.json())
