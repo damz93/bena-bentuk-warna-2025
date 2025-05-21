@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Belajar Warna & Bentuk</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #2A9D8F 0%, #F4A261 100%);
+            color: white;
+            padding: 1rem 0;
+            border-radius: 0 0 1rem 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .card {
+            border: none;
+            border-radius: 0.9375rem;
+            box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+        
+        .card:hover {
+            transform: translateY(-0.3125rem);
+            box-shadow: 0 0.625rem 1.25rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .shape-card {
+            height: 10rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .shape {
+            transition: transform 0.3s;
+        }
+        
+        .shape:hover {
+            transform: scale(1.1);
+        }
+        
+        .color-box {
+            height: 6.25rem;
+            border-radius: 0.625rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .color-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .btn-mode {
+            border-radius: 1.5625rem;
+            padding: 0.625rem 1.5625rem;
+            font-weight: 600;
+            margin: 0.3125rem;
+        }
+        
+        .footer {
+            background-color: #264653;
+            padding: 1rem 0;
+            color: white;
+            margin-top: 1rem;
+            border-radius: 1rem 1rem 0 0;
+        }
+        
+        .login-container {
+            max-width: 25rem;
+            margin: 6.25rem auto;
+            padding: 1.25rem;
+            border-radius: 0.9375rem;
+            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        
+        .locked-feature {
+            position: relative;
+            filter: grayscale(100%);
+        }
+        
+        .locked-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.625rem;
+        }
+        
+        .lock-icon {
+            color: white;
+            font-size: 2.5rem;
+        }
+        
+        /* Bentuk shapes */
+        .circle {
+            width: 5rem;
+            height: 5rem;
+            background-color: #FF5252;
+            border-radius: 50%;
+        }
+        
+        .square {
+            width: 5rem;
+            height: 5rem;
+            background-color: #4CAF50;
+        }
+        
+        .triangle {
+            width: 5rem;
+            height: 5rem;
+        }
+        
+        .rectangle {
+            width: 7rem;
+            height: 4rem;
+            background-color: #FFC107;
+        }
+        
+        .oval {
+            width: 7rem;
+            height: 4rem;
+            background-color: #9C27B0;
+            border-radius: 50%;
+        }
+        
+        .star {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .star:before {
+            content: "★";
+            color: #E91E63;
+            font-size: 5rem;
+            line-height: 0;
+        }
+        
+        .shape.diamond {
+            width: 80px;
+            height: 80px;
+            background-color: #FF4081;
+            transform: rotate(45deg);
+            margin-top: 20px;
+            }
+        
+        .heart {
+            width: 5rem;
+            height: 5rem;
+        }
+        
+        .parallelogram {
+            width: 7rem;
+            height: 4rem;
+        }
+        
+        .trapezoid {
+            width: 7rem;
+            height: 4rem;
+        }
+        
+        .active-mode {
+            background-color: #6a11cb;
+            color: white;
+        }
+        
+        #quiz-container {
+            text-align: center;
+            margin: 1.25rem 0;
+            padding: 1.25rem;
+            border-radius: 0.9375rem;
+            background-color: white;
+            box-shadow: 0 0.25rem 0.375rem rgba(0, 0, 0, 0.1);
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+            width: 100%;
+        }
+        
+        .quiz-option {
+            width: 6rem;
+            height: 6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 0.625rem;
+            border: 0.1875rem solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0.375rem 0.75rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .quiz-option.selected {
+            border-color: #6a11cb;
+        }
+        
+        #shapes-section, #colors-section, #quiz-container {
+            display: none;
+        }
+        
+        .tab-button {
+            background-color: #f8f9fa;
+            color: #6c757d;
+            border: none;
+            padding: 0.625rem 1.25rem;
+            border-radius: 1.5625rem;
+            font-weight: 600;
+            margin: 0 0.3125rem;
+            transition: all 0.3s;
+        }
+        
+        .tab-button.active {
+            background-color: #6a11cb;
+            color: white;
+        }
+        
+        .plus-feature {
+            display: none;
+        }
+        
+        #quiz-audio-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3125rem;
+            margin-bottom: 0.9375rem;
+            padding: 0.3125rem 0.9375rem;
+            border-radius: 1.5625rem;
+        }
+        
+        #score-display {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 1.25rem;
+            color: #6a11cb;
+        }
+
+        /* Media Queries */
+        @media (min-width: 576px) {
+            .shape-card { height: 12rem; }
+            .color-box { height: 7.5rem; }
+            .circle, .square, .diamond { width: 6rem; height: 6rem; }
+            .triangle, .heart { width: 6rem; height: 6rem; }
+            .rectangle { width: 8rem; height: 4.5rem; }
+            .oval { width: 8rem; height: 4.5rem; }
+            .parallelogram, .trapezoid { width: 8rem; height: 4.5rem; }
+            .quiz-option { width: 7rem; height: 7rem; }
+            .tab-button { padding: 0.75rem 1.5rem; }
+            .btn-mode { padding: 0.75rem 1.875rem; }
+            .header { padding: 1.5rem 0; }
+            .footer { padding: 1.5rem 0; }
+        }
+
+        @media (min-width: 768px) {
+            .shape-card { height: 14rem; }
+            .color-box { height: 8.75rem; }
+            .circle, .square, .diamond { width: 7rem; height: 7rem; }
+            .triangle, .heart { width: 7rem; height: 7rem; }
+            .rectangle { width: 9rem; height: 5rem; }
+            .oval { width: 9rem; height: 5rem; }
+            .parallelogram, .trapezoid { width: 9rem; height: 5rem; }
+            .star:before { font-size: 6rem; }
+            .quiz-option { width: 8rem; height: 8rem; }
+            .tab-button { padding: 0.875rem 1.75rem; }
+            .btn-mode { padding: 0.875rem 2.25rem; }
+            .header { padding: 2rem 0; }
+            .footer { padding: 2rem 0; }
+            #score-display { font-size: 1.25rem; }
+        }
+
+        @media (min-width: 992px) {
+            .shape-card { height: 16rem; }
+            .color-box { height: 10rem; }
+            .circle, .square, .diamond { width: 8rem; height: 8rem; }
+            .triangle, .heart { width: 8rem; height: 8rem; }
+            .rectangle { width: 10rem; height: 5.5rem; }
+            .oval { width: 10rem; height: 5.5rem; }
+            .parallelogram, .trapezoid { width: 10rem; height: 5.5rem; }
+            .star:before { font-size: 7rem; }
+            .quiz-option { width: 9rem; height: 9rem; }
+            .tab-button { padding: 1rem 2rem; }
+            .btn-mode { padding: 1rem 2.5rem; }
+            .header { padding: 2.5rem 0; }
+            .footer { padding: 2.5rem 0; }
+            #score-display { font-size: 1.375rem; }
+        }
+
+        @media (min-width: 1200px) {
+            .shape-card { height: 18rem; }
+            .color-box { height: 11.25rem; }
+            .circle, .square, .diamond { width: 9rem; height: 9rem; }
+            .triangle, .heart { width: 9rem; height: 9rem; }
+            .rectangle { width: 11rem; height: 6rem; }
+            .oval { width: 11rem; height: 6rem; }
+            .parallelogram, .trapezoid { width: 11rem; height: 6rem; }
+            .star:before { font-size: 8rem; }
+            .quiz-option { width: 10rem; height: 10rem; }
+            .tab-button { padding: 1.125rem 2.25rem; }
+            .btn-mode { padding: 1.125rem 2.75rem; }
+            .header { padding: 3rem 0; }
+            .footer { padding: 1rem 0; }
+            #score-display { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Main App -->
+    <div id="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-6 col-md-6">
+                        <h1 class="fw-bold">Belajar Warna & Bentuk</h1>
+                    </div>
+                    <div class="col-6 col-md-6 text-end">
+                        <span class="badge bg-warning" id="version-badge">Versi Trial</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container">
+            <!-- Mode Selection -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-10 col-md-8 text-center">
+                    <div class="bg-white p-3 rounded-pill shadow-sm">
+                        <button class="tab-button active" id="btn-shapes">Bentuk</button>
+                        <button class="tab-button" id="btn-colors">Warna</button>
+                        <button class="tab-button" id="btn-quiz">Kuis</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Mode Selection -->
+            <div class="row justify-content-center mb-4" id="learning-mode-container">
+                <div class="col-12 col-md-12 text-center">
+                    <div class="bg-white p-3 rounded shadow-sm">
+                        <button class="btn btn-mode active-mode" id="btn-learn-mode">Mode Belajar</button>
+                        <button class="btn btn-mode" id="btn-quiz-mode">Mode Kuis</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shapes Section -->
+            <div id="shapes-section">
+                <div class="row justify-content-center">
+                    <!-- Basic Shapes (Available in Trial) -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card shape-card" data-shape="lingkaran">
+                            <div class="shape circle mx-auto"></div>
+                            <div class="card-footer text-center mt-2">Lingkaran</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card shape-card" data-shape="persegi">
+                            <div class="shape square mx-auto"></div>
+                            <div class="card-footer text-center mt-2">Persegi</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card shape-card" data-shape="segitiga">
+                            <div class="shape triangle mx-auto">
+                                <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                                    <polygon points="50,10 90,90 10,90" fill="#2196F3" />
+                                </svg>
+                            </div>
+                            <div class="card-footer text-center mt-2">Segitiga</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card shape-card" data-shape="persegi-panjang">
+                            <div class="shape rectangle mx-auto"></div>
+                            <div class="card-footer text-center mt-2">Persegi Panjang</div>
+                        </div>
+                    </div>
+
+                    <!-- Premium Shapes (Only in Plus version) -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="oval">
+                            <div class="shape oval mx-auto"></div>
+                            <div class="locked-overlay" id="oval-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-1">Oval</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="bintang">
+                            <div class="shape star mx-auto"></div>
+                            <div class="locked-overlay" id="star-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-5">Bintang</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="belah-ketupat">
+                            <div class="shape diamond mx-auto"></div>
+                            <div class="locked-overlay" id="diamond-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-4">Belah Ketupat</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="hati">
+                            <div class="shape heart mx-auto">
+                                <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                                    <path 
+                                    d="M50 85 
+                                        C20 60, 10 40, 25 25 
+                                        C35 15, 50 20, 50 30 
+                                        C50 20, 65 15, 75 25 
+                                        C90 40, 80 60, 50 85 Z" 
+                                    fill="#FF4081" />
+                                </svg>
+                            </div>
+                            <div class="locked-overlay" id="heart-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-1">Hati</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="jajar-genjang">
+                            <div class="shape parallelogram mx-auto">
+                                <svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
+                                    <polygon points="20,0 100,0 80,60 0,60" fill="#F06292" />
+                                </svg>
+                            </div>
+                            <div class="locked-overlay" id="parallelogram-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-1">Jajar Genjang</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 plus-feature">
+                        <div class="card shape-card locked-feature" data-shape="trapesium">
+                            <div class="shape trapezoid mx-auto">
+                               <svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
+  <polygon points="30,0 70,0 90,60 10,60" fill="#4DB6AC" />
+</svg>
+
+                            </div>
+                            <div class="locked-overlay" id="trapezoid-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center mt-1">Trapesium</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Colors Section -->
+            <div id="colors-section">
+                <div class="row justify-content-center">
+                    <!-- Basic Colors (Available in Trial) -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card" data-color="merah">
+                            <div class="color-box" style="background-color: #FF0000;"></div>
+                            <div class="card-footer text-center">Merah</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card" data-color="biru">
+                            <div class="color-box" style="background-color: #0000FF;"></div>
+                            <div class="card-footer text-center">Biru</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card" data-color="hijau">
+                            <div class="color-box" style="background-color: #00FF00;"></div>
+                            <div class="card-footer text-center">Hijau</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card" data-color="kuning">
+                            <div class="color-box" style="background-color: #FFFF00;"></div>
+                            <div class="card-footer text-center">Kuning</div>
+                        </div>
+                    </div>
+
+                    <!-- Premium Colors (Only in Plus version) -->
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 plus-feature">
+                        <div class="card locked-feature" data-color="ungu">
+                            <div class="color-box" style="background-color: #800080;"></div>
+                            <div class="locked-overlay" id="purple-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center">Ungu</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 plus-feature">
+                        <div class="card locked-feature" data-color="oranye">
+                            <div class="color-box" style="background-color: #FFA500;"></div>
+                            <div class="locked-overlay" id="orange-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center">Oranye</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 plus-feature">
+                        <div class="card locked-feature" data-color="pink">
+                            <div class="color-box" style="background-color: #FFC0CB;"></div>
+                            <div class="locked-overlay" id="pink-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center">Pink</div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3 mb-4 plus-feature">
+                        <div class="card locked-feature" data-color="coklat">
+                            <div class="color-box" style="background-color: #A52A2A;"></div>
+                            <div class="locked-overlay" id="brown-lock">
+                                <i class="lock-icon">🔒</i>
+                            </div>
+                            <div class="card-footer text-center">Coklat</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="text-center">
+                <h3 id="quiz-question" class="mb-4">Mana yang berbentuk segitiga?</h3>
+                <div id="score-display">Skor: 0 Benar, 0 Salah (Pertanyaan 1/10)</div>
+                <div class="quiz-options" id="quiz-options">
+                    <!-- Quiz options will be dynamically added here -->
+                </div>
+                <div class="mt-4">
+                    <button id="check-answer" class="btn btn-primary">Periksa Jawaban</button>
+                    <button id="next-question" class="btn btn-success ms-2" style="display: none;">Lanjut</button>
+                    <button id="restart-quiz" class="btn btn-secondary ms-2" style="display: none;">Mulai Ulang</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-6 col-md-6">
+                        <p class="mb-0">Belajar Warna & Bentuk © 2025</p>
+                    </div>
+                    <div class="col-6 col-md-6 text-end">
+                        <p class="mb-0">Untuk anak-anak 2-6 tahun</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Configuration
+        const PREMIUM_CODE = "plus"; // Code for premium access
+        const TRIAL_CODE = "trial"; // Code for trial access
+        const MAX_QUESTIONS = 10; // Total number of questions
+        
+        // Application state
+        let isPremium = false;
+        let currentMode = "learn"; // "learn" or "quiz"
+        let currentTab = "shapes"; // "shapes" or "colors" or "quiz"
+        let currentQuizType = "shapes"; // "shapes" or "colors"
+        let currentQuestion = null;
+        let selectedAnswer = null;
+        let questionCount = 0;
+        let correctCount = 0;
+        let wrongCount = 0;
+        
+        // Audio elements for pronouncing shapes, colors, and feedback
+        const audio = new Audio();
+        const correctSound = new Audio('sounds/benar.mp3'); // Sound for correct answer
+        const wrongSound = new Audio('sounds/salah.mp3'); // Sound for wrong answer
+        
+        // Shapes and colors data
+        const shapes = {
+            basic: [
+                { id: "lingkaran", name: "Lingkaran" },
+                { id: "persegi", name: "Persegi" },
+                { id: "segitiga", name: "Segitiga" },
+                { id: "persegi-panjang", name: "Persegi Panjang" }
+            ],
+            premium: [
+                { id: "oval", name: "Oval" },
+                { id: "bintang", name: "Bintang" },
+                { id: "belah-ketupat", name: "Belah Ketupat" },
+                { id: "hati", name: "Hati" },
+                { id: "jajar-genjang", name: "Jajar Genjang" },
+                { id: "trapesium", name: "Trapesium" }
+            ]
+        };
+        
+        const colors = {
+            basic: [
+                { id: "merah", name: "Merah", color: "#FF0000" },
+                { id: "biru", name: "Biru", color: "#0000FF" },
+                { id: "hijau", name: "Hijau", color: "#00FF00" },
+                { id: "kuning", name: "Kuning", color: "#FFFF00" }
+            ],
+            premium: [
+                { id: "ungu", name: "Ungu", color: "#800080" },
+                { id: "oranye", name: "Oranye", color: "#FFA500" },
+                { id: "pink", name: "Pink", color: "#FFC0CB" },
+                { id: "coklat", name: "Coklat", color: "#A52A2A" }
+            ]
+        };
+        
+        // DOM Elements
+        const appContainer = document.getElementById('app-container');
+        const versionBadge = document.getElementById('version-badge');
+        const btnShapes = document.getElementById('btn-shapes');
+        const btnColors = document.getElementById('btn-colors');
+        const btnQuiz = document.getElementById('btn-quiz');
+        const shapesSection = document.getElementById('shapes-section');
+        const colorsSection = document.getElementById('colors-section');
+        const quizContainer = document.getElementById('quiz-container');
+        const learningModeContainer = document.getElementById('learning-mode-container');
+        const btnLearnMode = document.getElementById('btn-learn-mode');
+        const btnQuizMode = document.getElementById('btn-quiz-mode');
+        const quizQuestion = document.getElementById('quiz-question');
+        const quizOptions = document.getElementById('quiz-options');
+        const checkAnswerBtn = document.getElementById('check-answer');
+        const nextQuestionBtn = document.getElementById('next-question');
+        const restartQuizBtn = document.getElementById('restart-quiz');
+        const scoreDisplay = document.getElementById('score-display');
+        
+        // Access Level Check
+        const aksesLevel = localStorage.getItem('aksesLevel');
+        if (aksesLevel === 'trial') {
+            isPremium = false;
+            versionBadge.textContent = 'Versi Trial';
+            appContainer.style.display = 'block';
+            Swal.fire({
+                title: 'Selamat Datang di Versi Trial!',
+                text: 'Kamu memiliki akses terbatas. Gunakan kode premium untuk mengakses semua fitur',
+                icon: 'info',
+                confirmButtonColor: '#6a11cb'
+            });
+            switchTab('shapes');
+        } else if (aksesLevel === 'plus') {
+            isPremium = true;
+            versionBadge.textContent = 'Versi Plus';
+            versionBadge.classList.remove('bg-warning');
+            versionBadge.classList.add('bg-success');
+            appContainer.style.display = 'block';
+            
+            // Show premium features
+            document.querySelectorAll('.plus-feature').forEach(element => {
+                element.style.display = 'block';
+            });
+            
+            // Remove locks
+            document.querySelectorAll('.locked-overlay').forEach(lock => {
+                lock.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.locked-feature').forEach(feature => {
+                feature.classList.remove('locked-feature');
+            });
+            
+            Swal.fire({
+                title: 'Selamat Datang di Versi Plus!',
+                text: 'Kamu sekarang memiliki akses ke semua fitur pembelajaran warna dan bentuk',
+                icon: 'success',
+                confirmButtonColor: '#6a11cb'
+            });
+            switchTab('shapes');
+        } else {
+            Swal.fire({
+                icon: 'warning',
+                title: 'Akses Tidak Dikenal',
+                text: 'Kami akan mengembalikan kamu ke halaman sebelumnya.',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                window.location.href = '/'; // Adjust the redirect URL as needed
+            });
+        }
+        
+        // Event Listeners
+        btnShapes.addEventListener('click', () => switchTab('shapes'));
+        btnColors.addEventListener('click', () => switchTab('colors'));
+        btnQuiz.addEventListener('click', () => switchTab('quiz'));
+        btnLearnMode.addEventListener('click', () => switchMode('learn'));
+        btnQuizMode.addEventListener('click', () => switchMode('quiz'));
+        checkAnswerBtn.addEventListener('click', checkAnswer);
+        nextQuestionBtn.addEventListener('click', generateQuestion);
+        restartQuizBtn.addEventListener('click', restartQuiz);
+        
+        // Setup shape and color click handlers
+        document.querySelectorAll('.shape-card').forEach(card => {
+            card.addEventListener('click', function() {
+                if (this.classList.contains('locked-feature') && !isPremium) {
+                    showPremiumAlert();
+                    return;
+                }
+                const shape = this.getAttribute('data-shape');
+                pronounce(shape);
+            });
+        });
+        
+        document.querySelectorAll('[data-color]').forEach(card => {
+            card.addEventListener('click', function() {
+                if (this.classList.contains('locked-feature') && !isPremium) {
+                    showPremiumAlert();
+                    return;
+                }
+                const color = this.getAttribute('data-color');
+                pronounce(color);
+            });
+        });
+        
+        // Tab switching
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // Update tab buttons
+            [btnShapes, btnColors, btnQuiz].forEach(btn => btn.classList.remove('active'));
+            
+            if (tab === 'shapes') {
+                btnShapes.classList.add('active');
+                shapesSection.style.display = 'block';
+                colorsSection.style.display = 'none';
+                quizContainer.style.display = 'none';
+                learningModeContainer.style.display = 'block';
+                switchMode(currentMode);
+            } else if (tab === 'colors') {
+                btnColors.classList.add('active');
+                shapesSection.style.display = 'none';
+                colorsSection.style.display = 'block';
+                quizContainer.style.display = 'none';
+                learningModeContainer.style.display = 'block';
+                switchMode(currentMode);
+            } else if (tab === 'quiz') {
+                btnQuiz.classList.add('active');
+                shapesSection.style.display = 'none';
+                colorsSection.style.display = 'none';
+                quizContainer.style.display = 'block';
+                learningModeContainer.style.display = 'none';
+                resetQuiz();
+                generateQuestion();
+            }
+        }
+        
+        // Mode switching (learn or quiz)
+        function switchMode(mode) {
+            currentMode = mode;
+            
+            if (currentTab === 'quiz') {
+                return; // Quiz tab has its own quiz mode
+            }
+            
+            [btnLearnMode, btnQuizMode].forEach(btn => btn.classList.remove('active-mode'));
+            
+            if (mode === 'learn') {
+                btnLearnMode.classList.add('active-mode');
+                quizContainer.style.display = 'none';
+                
+                if (currentTab === 'shapes') {
+                    shapesSection.style.display = 'block';
+                } else if (currentTab === 'colors') {
+                    colorsSection.style.display = 'block';
+                }
+            } else if (mode === 'quiz') {
+                btnQuizMode.classList.add('active-mode');
+                shapesSection.style.display = 'none';
+                colorsSection.style.display = 'none';
+                quizContainer.style.display = 'block';
+                currentQuizType = currentTab;
+                resetQuiz();
+                generateQuestion();
+            }
+        }
+        
+        // Quiz functions
+        function resetQuiz() {
+            questionCount = 0;
+            correctCount = 0;
+            wrongCount = 0;
+            updateScoreDisplay();
+            checkAnswerBtn.style.display = 'inline-block';
+            nextQuestionBtn.style.display = 'none';
+            restartQuizBtn.style.display = 'none';
+        }
+        
+        function generateQuestion() {
+            if (questionCount >= MAX_QUESTIONS) {
+                endQuiz();
+                return;
+            }
+            
+            // Reset UI
+            nextQuestionBtn.style.display = 'none';
+            checkAnswerBtn.style.display = 'inline-block';
+            selectedAnswer = null;
+            quizOptions.innerHTML = '';
+            questionCount++;
+            
+            // Decide what to quiz on based on current tab or previous quiz type
+            currentQuizType = (currentTab === 'quiz') ? 
+                (Math.random() > 0.5 ? 'shapes' : 'colors') : currentTab;
+            
+            let allItems = [];
+            
+            if (currentQuizType === 'shapes') {
+                allItems = [...shapes.basic];
+                if (isPremium) {
+                    allItems = [...allItems, ...shapes.premium];
+                }
+                
+                // Pick a random shape to ask about
+                const correctIndex = Math.floor(Math.random() * allItems.length);
+                currentQuestion = {
+                    type: 'shapes',
+                    correct: allItems[correctIndex],
+                    options: getRandomOptions(allItems, correctIndex)
+                };
+                
+                const questionText = `Mana yang berbentuk ${currentQuestion.correct.name}?`;
+                quizQuestion.textContent = questionText;
+                
+                // Speak the question
+                speakQuestion(questionText);
+                
+                // Add audio button
+                addAudioButton(questionText);
+                
+                // Generate shape options
+                currentQuestion.options.forEach((shape, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'quiz-option';
+                    optionDiv.setAttribute('data-answer', shape.id);
+                    
+                    // Create proper shape element based on shape id
+                    const shapeDiv = document.createElement('div');
+                    
+                    if (shape.id === "lingkaran") {
+                        shapeDiv.className = "shape circle";
+                    } else if (shape.id === "persegi") {
+                        shapeDiv.className = "shape square"; 
+                    } else if (shape.id === "segitiga") {
+                        shapeDiv.className = "shape triangle";
+                        shapeDiv.innerHTML = `<svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                            <polygon points="50,10 90,90 10,90" fill="#2196F3" />
+                        </svg>`;
+                    } else if (shape.id === "persegi-panjang") {
+                        shapeDiv.className = "shape rectangle";
+                    } else if (shape.id === "oval") {
+                        shapeDiv.className = "shape oval";
+                    } else if (shape.id === "bintang") {
+                        shapeDiv.className = "shape star";
+                    } else if (shape.id === "belah-ketupat") {
+                        shapeDiv.className = "shape diamond";
+                    } else if (shape.id === "hati") {
+                        shapeDiv.className = "shape heart";
+                        shapeDiv.innerHTML = `<svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+    <path 
+      d="M50 85 
+         C20 60, 10 40, 25 25 
+         C35 15, 50 20, 50 30 
+         C50 20, 65 15, 75 25 
+         C90 40, 80 60, 50 85 Z" 
+      fill="#FF4081" />
+  </svg>`;
+                    } else if (shape.id === "jajar-genjang") {
+                        shapeDiv.className = "shape parallelogram";
+                        shapeDiv.innerHTML = `<svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
+                            <polygon points="20,0 100,0 80,60 0,60" fill="#F06292" />
+                        </svg>`;
+                    } else if (shape.id === "trapesium") {
+                        shapeDiv.className = "shape trapezoid";
+                        shapeDiv.innerHTML = `<svg width="100%" height="100%" viewBox="0 0 100 60" preserveAspectRatio="xMidYMid meet">
+  <polygon points="30,0 70,0 90,60 10,60" fill="#4DB6AC" />
+</svg>
+`;
+                    }
+                    
+                    optionDiv.appendChild(shapeDiv);
+                    quizOptions.appendChild(optionDiv);
+                    
+                    optionDiv.addEventListener('click', function() {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to this option
+                        this.classList.add('selected');
+                        selectedAnswer = this.getAttribute('data-answer');
+                    });
+                });
+            } else {
+                allItems = [...colors.basic];
+                if (isPremium) {
+                    allItems = [...allItems, ...colors.premium];
+                }
+                
+                // Pick a random color to ask about
+                const correctIndex = Math.floor(Math.random() * allItems.length);
+                currentQuestion = {
+                    type: 'colors',
+                    correct: allItems[correctIndex],
+                    options: getRandomOptions(allItems, correctIndex)
+                };
+                
+                const questionText = `Mana yang berwarna ${currentQuestion.correct.name}?`;
+                quizQuestion.textContent = questionText;
+                
+                // Speak the question
+                speakQuestion(questionText);
+                
+                // Add audio button
+                addAudioButton(questionText);
+                
+                // Generate color options
+                currentQuestion.options.forEach((color, index) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'quiz-option';
+                    optionDiv.setAttribute('data-answer', color.id);
+                    optionDiv.style.backgroundColor = color.color;
+                    quizOptions.appendChild(optionDiv);
+                    
+                    optionDiv.addEventListener('click', function() {
+                        // Remove selected class from all options
+                        document.querySelectorAll('.quiz-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        
+                        // Add selected class to this option
+                        this.classList.add('selected');
+                        selectedAnswer = this.getAttribute('data-answer');
+                    });
+                });
+            }
+            updateScoreDisplay();
+        }
+        
+        function updateScoreDisplay() {
+            scoreDisplay.textContent = `Skor: ${correctCount} Benar, ${wrongCount} Salah (Pertanyaan ${questionCount}/${MAX_QUESTIONS})`;
+        }
+        
+        function endQuiz() {
+            Swal.fire({
+                title: 'Kuis Selesai!',
+                text: `Skor Anda: ${correctCount} Benar, ${wrongCount} Salah dari 10 pertanyaan.`,
+                icon: 'info',
+                confirmButtonColor: '#6a11cb',
+                confirmButtonText: 'OK'
+            });
+            checkAnswerBtn.style.display = 'none';
+            nextQuestionBtn.style.display = 'none';
+            restartQuizBtn.style.display = 'inline-block';
+        }
+        
+        function speakQuestion(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = text;
+                speech.lang = 'id-ID';
+                speech.volume = 1;
+                speech.rate = 0.9;
+                speech.pitch = 1;
+                
+                window.speechSynthesis.speak(speech);
+            }
+        }
+        
+        function addAudioButton(text) {
+            // Remove existing audio button if any
+            const existingBtn = document.getElementById('quiz-audio-btn');
+            if (existingBtn) {
+                existingBtn.remove();
+            }
+            
+            // Create audio button
+            const audioBtn = document.createElement('button');
+            audioBtn.id = 'quiz-audio-btn';
+            audioBtn.className = 'btn btn-sm btn-outline-primary ms-2';
+            audioBtn.innerHTML = '🔊 Dengarkan';
+            audioBtn.addEventListener('click', function() {
+                speakQuestion(text);
+            });
+            
+            // Add button after question text
+            quizQuestion.parentNode.insertBefore(audioBtn, quizQuestion.nextSibling);
+        }
+        
+        function getRandomOptions(allItems, correctIndex) {
+            // Create a copy of all items
+            const options = [...allItems];
+            
+            // Get the correct answer
+            const correctAnswer = options[correctIndex];
+            
+            // Remove the correct answer from the options
+            options.splice(correctIndex, 1);
+            
+            // Shuffle the remaining options
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            
+            // Get 3 random options (or fewer if there aren't enough)
+            const randomOptions = options.slice(0, 3);
+            
+            // Add back the correct answer
+            randomOptions.push(correctAnswer);
+            
+            // Shuffle one more time to randomize position of correct answer
+            for (let i = randomOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [randomOptions[i], randomOptions[j]] = [randomOptions[j], randomOptions[i]];
+            }
+            
+            return randomOptions;
+        }
+        
+        function checkAnswer() {
+            if (!selectedAnswer) {
+                Swal.fire({
+                    title: 'Oops!',
+                    text: 'Silakan pilih jawaban terlebih dahulu',
+                    icon: 'warning',
+                    confirmButtonColor: '#6a11cb'
+                });
+                return;
+            }
+            
+            if (selectedAnswer === currentQuestion.correct.id) {
+                // Correct answer
+                Swal.fire({
+                    title: 'Benar!',
+                    text: `Ya, itu adalah ${currentQuestion.correct.name}!`,
+                    icon: 'success',
+                    confirmButtonColor: '#6a11cb'
+                });
+                
+                // Play correct sound
+                correctSound.play().catch(error => {
+                    console.error("Error playing correct sound:", error);
+                });
+                
+                // Increment correct count
+                correctCount++;
+                
+                // Play pronunciation sound
+                pronounce(currentQuestion.correct.id);
+            } else {
+                // Wrong answer
+                Swal.fire({
+                    title: 'Coba Lagi',
+                    text: 'Jawaban tidak tepat. Silakan coba lagi!',
+                    icon: 'error',
+                    confirmButtonColor: '#6a11cb'
+                });
+                
+                // Play wrong sound
+                wrongSound.play().catch(error => {
+                    console.error("Error playing wrong sound:", error);
+                });
+                
+                // Increment wrong count
+                wrongCount++;
+            }
+            
+            // Update score display
+            updateScoreDisplay();
+            
+            // Hide check answer button and show next question button
+            checkAnswerBtn.style.display = 'none';
+            if (questionCount < MAX_QUESTIONS) {
+                nextQuestionBtn.style.display = 'inline-block';
+            } else {
+                endQuiz();
+            }
+        }
+        
+        function restartQuiz() {
+            resetQuiz();
+            generateQuestion();
+            restartQuizBtn.style.display = 'none';
+            nextQuestionBtn.style.display = 'none';
+            checkAnswerBtn.style.display = 'inline-block';
+        }
+        
+        // Helper function to pronounce the shape or color name
+        function pronounce(id) {
+            // In a real application, you would use actual audio files here
+            // For this example, we'll use the Web Speech API for demonstration
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                
+                // Find the name from the arrays
+                let name = "";
+                
+                // Check in shapes
+                let found = shapes.basic.find(shape => shape.id === id);
+                if (found) {
+                    name = found.name;
+                } else {
+                    found = shapes.premium.find(shape => shape.id === id);
+                    if (found) {
+                        name = found.name;
+                    }
+                }
+                
+                // Check in colors if not found in shapes
+                if (!name) {
+                    found = colors.basic.find(color => color.id === id);
+                    if (found) {
+                        name = found.name;
+                    } else {
+                        found = colors.premium.find(color => color.id === id);
+                        if (found) {
+                            name = found.name;
+                        }
+                    }
+                }
+                
+                if (name) {
+                    speech.text = name;
+                    speech.lang = 'id-ID';
+                    speech.volume = 1;
+                    speech.rate = 0.9;
+                    speech.pitch = 1;
+                    
+                    window.speechSynthesis.speak(speech);
+                    
+                    // Visual feedback
+                    Swal.fire({
+                        title: name,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        customClass: {
+                            title: 'fs-1 fw-bold'
+                        }
+                    });
+                }
+            } else {
+                console.log("Browser tidak mendukung Web Speech API");
+                
+                // Fallback visual feedback
+                let name = "";
+                
+                // Check in shapes
+                let found = shapes.basic.find(shape => shape.id === id);
+                if (found) {
+                    name = found.name;
+                } else {
+                    found = shapes.premium.find(shape => shape.id === id);
+                    if (found) {
+                        name = found.name;
+                    }
+                }
+                
+                // Check in colors if not found in shapes
+                if (!name) {
+                    found = colors.basic.find(color => color.id === id);
+                    if (found) {
+                        name = found.name;
+                    } else {
+                        found = colors.premium.find(color => color.id === id);
+                        if (found) {
+                            name = found.name;
+                        }
+                    }
+                }
+                
+                if (name) {
+                    Swal.fire({
+                        title: name,
+                        showConfirmButton: false,
+                        timer: 1500,
+                        customClass: {
+                            title: 'fs-1 fw-bold'
+                        }
+                    });
+                }
+            }
+        }
+        
+        function showPremiumAlert() {
+            Swal.fire({
+                title: 'Fitur Premium',
+                text: 'Fitur ini hanya tersedia di versi Plus. Masukkan kode "plus" untuk mengakses semua fitur.',
+                icon: 'info',
+                confirmButtonColor: '#6a11cb'
+            });
+        }
+    </script>
+</body>
+</html>
