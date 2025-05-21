@@ -13,7 +13,7 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #f5f0e3;
             min-height: 100vh;
             margin: 0;
             padding: 0;
@@ -83,14 +83,6 @@
             border-radius: 1rem 1rem 0 0;
         }
         
-        .login-container {
-            max-width: 25rem;
-            margin: 6.25rem auto;
-            padding: 1.25rem;
-            border-radius: 0.9375rem;
-            box-shadow: 0 0 1.25rem rgba(0, 0, 0, 0.1);
-            background-color: white;
-        }
         
         .locked-feature {
             position: relative;
@@ -334,13 +326,38 @@
             .footer { padding: 1rem 0; }
             #score-display { font-size: 1.5rem; }
         }
+        #fixedMenu {
+			width: 100vw;
+			margin: 0;
+			padding-left: 0;
+			padding-right: 0;
+			left: 0;
+			right: 0;
+			z-index: 1030;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			}
+			#fixedMenu .form-control,
+			#fixedMenu .form-select {
+			border-radius: 25px;
+			padding-left: 1.25rem;
+			padding-right: 1.25rem;
+			font-size: 1rem;
+			transition: border-color 0.3s ease;
+			border: 2px solid #f8b500;
+			}
+			#fixedMenu .form-control:focus,
+			#fixedMenu .form-select:focus {
+			border-color: #e67e00;
+			box-shadow: 0 0 8px #e67e00aa;
+			outline: none;
+			}
     </style>
 </head>
 <body>
     <!-- Main App -->
     <div id="app-container">
         <!-- Header -->
-        <div class="header">
+        <div id="fixedMenu" class="header container-fluid fixed-top bg-light py-3">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-6 col-md-6">
@@ -354,7 +371,7 @@
         </div>
 
         <!-- Main Content -->
-        <div class="container">
+        <div class="container" style="margin-top: 10rem;">
             <!-- Mode Selection -->
             <div class="row justify-content-center mb-4">
                 <div class="col-10 col-md-8 text-center">
